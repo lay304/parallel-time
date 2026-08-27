@@ -45,7 +45,7 @@ header{height:62px;padding:0 18px;display:flex;align-items:center;justify-conten
 <script>
 /* 只需要把下面两个值换成你的 Supabase 项目值 */
 const SUPABASE_URL="https://qzojkmirrgqhkasplwzq.supabase.co";
-const SUPABASE_ANON_KEY="YOUR_SUPABASsb_publishable_Ffl08x61hxtRearHV6_5NQ_vVee_-K_E_ANON_KEY";
+const SUPABASE_ANON_KEY="sb_publishable_Ffl08x61hxtRearHV6_5NQ_vVee_-K_E_ANON_KEY";
 const db=(SUPABASE_URL.startsWith("YOUR_"))?null:supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
 let state={roomId:new URLSearchParams(location.search).get("room")||localStorage.getItem("roomId")||"",room:null,members:[],shots:[],selected:"🏠 在家"};
