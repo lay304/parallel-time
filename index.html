@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f3ef">
+<title>此时此刻 · 三人平行时空</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f3ef;color:#171717;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}.app{max-width:680px;margin:auto;min-height:100vh;padding-bottom:86px}
+header{height:62px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#f5f3eff0;backdrop-filter:blur(15px);z-index:5}header b{font-size:15px}button{font:inherit}header button,.light{border:0;background:#fff;border-radius:20px;padding:9px 13px;font-weight:600}.hero{padding:38px 22px 22px}.ey{font-size:10px;letter-spacing:3px;color:#999}.hero h1{font-size:42px;line-height:1.05;margin:9px 0}.hero h1 span{font-weight:400}.hero p{color:#777;line-height:1.65;font-size:14px}.card{background:#fff;border-radius:25px;margin:14px;padding:19px;box-shadow:0 8px 35px #00000008}.title{font-weight:700;margin-bottom:15px}.input{width:100%;height:48px;border:0;background:#f2f1ee;border-radius:14px;padding:0 14px;margin:5px 0 10px}.btn{width:100%;border:0;border-radius:17px;background:#171717;color:#fff;padding:14px;margin-top:10px;font-weight:700}.outline{width:100%;border:1px solid #222;border-radius:17px;background:#fff;padding:14px;font-weight:700}.or{text-align:center;color:#aaa;margin:12px}.hidden{display:none!important}.members{display:flex;gap:12px}.member{flex:1;text-align:center}.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin:auto auto 6px;font-weight:700}.a{background:#ddd5c8}.b{background:#dce2d8}.c{background:#dce0e9}.status{font-size:10px;color:#999;margin-top:4px}.currentHead{display:flex;justify-content:space-between;margin-bottom:13px}.currentHead small{color:#aaa}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.media{height:185px;border-radius:15px;background:#eee;display:grid;place-items:center;text-align:center;color:#999;font-size:25px;overflow:hidden}.media.me{background:#222;color:#fff}.media video{width:100%;height:100%;object-fit:cover}.media small{display:block;font-size:9px;opacity:.7}.shot b{display:block;font-size:11px;margin-top:7px}.shot span{font-size:9px;color:#aaa}.timeline{padding:14px 18px}.row{display:grid;grid-template-columns:48px 1fr;gap:10px;margin:12px 0}.hour{font-size:11px;color:#999;padding-top:7px}.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.m{height:74px;border-radius:10px;background:#dedbd5;display:grid;place-items:center;font-size:18px}.m:nth-child(2){background:#e3e7df}.m:nth-child(3){background:#e0e2e7}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(680px,100%);height:68px;background:#fffffff2;backdrop-filter:blur(15px);display:flex;justify-content:space-around;align-items:center;border-top:1px solid #eee;z-index:6}.nav button{border:0;background:none;color:#999;font-weight:600}.nav .on{color:#171717}.sheet{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;z-index:10}.sheet.show{display:flex}.panel{background:#f8f7f4;width:100%;max-width:680px;margin:auto;border-radius:27px 27px 0 0;padding:13px 19px 25px}.handle{width:40px;height:4px;background:#ccc;border-radius:4px;margin:0 auto 18px}.cam{height:290px;background:#222;border-radius:20px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative}.cam video{width:100%;height:100%;object-fit:cover}.count{font-size:34px}.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}.tag{border:1px solid #ddd;background:#fff;border-radius:20px;padding:8px 11px;font-size:12px}.tag.sel{background:#171717;color:#fff}.toast{position:fixed;left:50%;bottom:85px;transform:translateX(-50%);background:#171717;color:#fff;padding:11px 16px;border-radius:22px;font-size:12px;opacity:0;z-index:20;transition:.2s;white-space:nowrap}.toast.show{opacity:1}.setup{display:none}.setup.show{display:block}.roomcode{font-size:11px;color:#888;margin-top:3px}.empty{text-align:center;color:#999;padding:22px 0}
+</style>
+</head>
+<body>
+<div class="app">
+<header><b>● 此时此刻</b><button onclick="shareRoom()">邀请好友</button></header>
+<section class="hero"><div class="ey">PARALLEL TIME · 3 FRIENDS</div><h1>此时此刻<br><span>我们各自在干嘛？</span></h1><p>每隔一个小时留下3秒，晚上把三个人的一天拼在一起。</p></section>
+
+<section class="card setup" id="setup"><div class="title">创建三人房间</div>
+<input id="roomName" class="input" placeholder="例如：成都三人组">
+<button class="btn" onclick="createRoom()">创建房间</button>
+<div class="or">或</div>
+<input id="joinCode" class="input" placeholder="输入朋友的邀请码">
+<button class="outline" onclick="joinRoom()">加入房间</button></section>
+
+<section class="card"><div class="title" id="roomTitle">正在加载房间…</div><div class="roomcode" id="roomCode"></div><div class="members" id="members"></div></section>
+
+<section class="card">
+<div class="currentHead"><b><span id="hour">--</span>:00 · 这一小时</b><small id="done">0 / 3 已报备</small></div>
+<div class="grid" id="shots"></div>
+<button class="btn" onclick="openRecorder()">＋ 拍3秒，报备现在</button>
+</section>
+
+<section class="timeline"><div class="title">今天的时间线</div><div id="timeline"></div></section>
+<nav class="nav"><button class="on">时间线</button><button onclick="shareRoom()">三人</button><button onclick="review()">回顾</button></nav>
+</div>
+
+<div class="sheet" id="sheet"><div class="panel"><div class="handle"></div><h3 id="sheetTitle">记录现在</h3>
+<div class="cam" id="cam"><div class="count">📷</div><b>点击开始3秒记录</b><small style="opacity:.5">首次使用请允许相机权限</small></div>
+<div class="tags" id="tags"></div><button class="btn" onclick="record3s()">开始记录</button>
+<label class="outline" style="display:block;text-align:center;margin-top:8px">从相册选择视频<input id="videoFile" type="file" accept="video/*" capture="user" class="hidden" onchange="uploadSelected(this)"></label>
+<button class="outline" onclick="closeRecorder()" style="margin-top:8px">取消</button>
+</div></div><div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* 只需要把下面两个值换成你的 Supabase 项目值 */
+const SUPABASE_URL="https://qzojkmirrgqhkasplwzq.supabase.co";
+const SUPABASE_ANON_KEY="YOUR_SUPABASsb_publishable_Ffl08x61hxtRearHV6_5NQ_vVee_-K_E_ANON_KEY";
+const db=(SUPABASE_URL.startsWith("YOUR_"))?null:supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+let state={roomId:new URLSearchParams(location.search).get("room")||localStorage.getItem("roomId")||"",room:null,members:[],shots:[],selected:"🏠 在家"};
+const TAGS=["🏠 在家","🍜 吃饭","💼 工作","🚗 路上","😴 睡觉","✨ 其他"];
+let recorder=null,chunks=[],stream=null;
+
+const $=id=>document.getElementById(id);
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function uid(){let x=localStorage.getItem("guestId");if(!x){x=crypto.randomUUID();localStorage.setItem("guestId",x)}return x}
+function nowHour(){return new Date().getHours()}
+async function boot(){
+  if(!db){$("setup").classList.add("show");$("roomTitle").textContent="演示模式（尚未连接云端）";render();return}
+  if(state.roomId){await loadRoom();subscribe()}else $("setup").classList.add("show");
+  render();
+}
+async function createRoom(){
+  const name=$("roomName").value.trim()||"我们的平行时空";
+  const code=Math.random().toString(36).slice(2,8).toUpperCase(), id=crypto.randomUUID(), me=uid();
+  const {error}=await db.from("rooms").insert({id,name,code,owner_id:me});
+  if(error)return toast("创建失败："+error.message);
+  await db.from("room_members").insert({room_id:id,user_id:me,name:"你"});
+  localStorage.setItem("roomId",id);state.roomId=id;history.replaceState(null,"","?room="+id);$("setup").classList.remove("show");toast("房间创建成功："+code);await loadRoom();subscribe();render();
+}
+async function joinRoom(){
+  const code=$("joinCode").value.trim().toUpperCase();if(!code)return toast("请输入邀请码");
+  const {data:room,error}=await db.from("rooms").select("*").eq("code",code).single();if(error||!room)return toast("邀请码无效");
+  const {data:ms}=await db.from("room_members").select("*").eq("room_id",room.id);if((ms||[]).length>=3&&!ms.some(x=>x.user_id===uid()))return toast("房间已满");
+  if(!(ms||[]).some(x=>x.user_id===uid()))await db.from("room_members").insert({room_id:room.id,user_id:uid(),name:"朋友"});
+  localStorage.setItem("roomId",room.id);state.roomId=room.id;history.replaceState(null,"","?room="+room.id);$("setup").classList.remove("show");await loadRoom();subscribe();render();toast("已加入房间");
+}
+async function loadRoom(){
+  const {data:r}=await db.from("rooms").select("*").eq("id",state.roomId).single();if(!r)return;
+  const {data:m}=await db.from("room_members").select("*").eq("room_id",state.roomId).order("created_at");
+  const {data:s}=await db.from("checkins").select("*").eq("room_id",state.roomId);
+  state.room=r;state.members=m||[];state.shots=s||[];render();
+}
+function subscribe(){db.channel("room-"+state.roomId).on("postgres_changes",{event:"*",schema:"public",table:"checkins",filter:"room_id=eq."+state.roomId},loadRoom).on("postgres_changes",{event:"*",schema:"public",table:"room_members",filter:"room_id=eq."+state.roomId},loadRoom).subscribe()}
+function render(){
+ const h=nowHour();$("hour").textContent=String(h).padStart(2,"0");
+ if(state.room){$("roomTitle").textContent=state.room.name;$("roomCode").textContent="邀请码："+state.room.code}
+ const mem=state.members.length?state.members:[{user_id:"me",name:"你"},{user_id:"a",name:"朋友A"},{user_id:"b",name:"朋友B"}];
+ const cur=state.shots.filter(x=>x.hour===h);$("done").textContent=cur.length+" / 3 已报备";
+ $("members").innerHTML=mem.map((m,i)=>`<div class="member"><div class="avatar ${["a","b","c"][i]}">${(m.name||"友").slice(0,1)}</div><b>${m.name}</b><div class="status">${cur.some(x=>x.user_id===m.user_id)?"已报备":"等待中"}</div></div>`).join("");
+ $("shots").innerHTML=mem.map(m=>{let x=cur.find(x=>x.user_id===m.user_id);return `<div class="shot"><div class="media ${x?"me":""}">${x?.media_url?`<video src="${x.media_url}" muted playsinline></video>`:(x?.tag||"+")}<small>${x?"3秒已记录":"等待中"}</small></div><b>${m.name}</b><span>${x?"刚刚":"还没出现"}</span></div>`}).join("");
+ let out="";for(let hh=h;hh>=9;hh--){let a=state.shots.filter(x=>x.hour===hh);out+=`<div class="row"><div class="hour">${String(hh).padStart(2,"0")}:00</div><div class="mini">${mem.map(m=>{let x=a.find(y=>y.user_id===m.user_id);return `<div class="m">${x?.tag||"·"}</div>`}).join("")}</div></div>`}
+ $("timeline").innerHTML=out||'<div class="empty">今天还没有时间点</div>';
+}
+function openRecorder(){$("sheet").classList.add("show");$("tags").innerHTML=TAGS.map((x,i)=>`<button class="tag ${i===0?"sel":""}" onclick="pickTag(${i},this)">${x}</button>`).join("")}
+function pickTag(i,e){state.selected=TAGS[i];document.querySelectorAll(".tag").forEach(x=>x.classList.remove("sel"));e.classList.add("sel")}
+async function record3s(){
+ if(!navigator.mediaDevices?.getUserMedia)return toast("当前微信环境无法直接录制，请用“从相册选择视频”");
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:true});
+  const v=document.createElement("video");v.className="camvideo";v.autoplay=true;v.muted=true;v.playsInline=true;v.srcObject=stream;$("cam").replaceChildren(v);
+  chunks=[];recorder=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported("video/webm")?"video/webm":""});recorder.ondataavailable=e=>e.data.size&&chunks.push(e.data);recorder.start();
+  setTimeout(()=>recorder.stop(),3000);recorder.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const blob=new Blob(chunks,{type:recorder.mimeType||"video/webm"});await saveVideo(blob);closeRecorder()}
+ }catch(e){toast("请在浏览器设置中允许相机权限")}
+}
+async function uploadSelected(input){if(!input.files[0])return;await saveVideo(input.files[0]);closeRecorder()}
+async function saveVideo(blob){
+ if(!db)return toast("演示模式：视频未上传云端");
+ const path=state.roomId+"/"+uid()+"_"+nowHour()+"_"+Date.now()+".mp4";
+ const {error}=await db.storage.from("checkins").upload(path,blob,{contentType:blob.type||"video/mp4",upsert:true});
+ if(error)return toast("上传失败："+error.message);
+ const {data:url}=db.storage.from("checkins").getPublicUrl(path);
+ const {error:e}=await db.from("checkins").upsert({room_id:state.roomId,user_id:uid(),hour:nowHour(),tag:state.selected,media_url:url.publicUrl},{onConflict:"room_id,user_id,hour"});
+ if(e)return toast("保存失败："+e.message);await loadRoom();toast("已报备 "+String(nowHour()).padStart(2,"0")+":00 ✓");
+}
+function closeRecorder(){$("sheet").classList.remove("show");if(stream)stream.getTracks().forEach(t=>t.stop())}
+function shareRoom(){if(!state.room)return toast("请先创建房间");const link=location.origin+location.pathname+"?room="+state.room.id;navigator.clipboard?.writeText("加入「此时此刻」："+link+"  邀请码："+state.room.code);toast("邀请链接和邀请码已复制")}
+function review(){toast("今日回顾功能已预留；下一版可加入云端9:16视频合成")}
+boot();
+</script></body></html>
